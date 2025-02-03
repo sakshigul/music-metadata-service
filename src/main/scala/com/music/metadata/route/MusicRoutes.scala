@@ -7,15 +7,15 @@ import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport
 import akka.http.scaladsl.server.Route
 import com.music.metadata.models.{Artist, Track}
 import com.music.metadata.service.MusicService
-import spray.json.DefaultJsonProtocol
+import spray.json.{DefaultJsonProtocol, RootJsonFormat}
 
 import scala.util.{Failure, Success}
 
 class MusicRoutes(musicService: MusicService)(implicit val system: ActorSystem) extends SprayJsonSupport with DefaultJsonProtocol {
 
   // JSON formats
-  implicit val trackFormat = jsonFormat5(Track)
-  implicit val artistFormat = jsonFormat3(Artist)
+  implicit val trackFormat: RootJsonFormat[Track] = jsonFormat4(Track)
+  implicit val artistFormat: RootJsonFormat[Artist] = jsonFormat3(Artist)
 
   val routes: Route =
     pathPrefix("artists") {
